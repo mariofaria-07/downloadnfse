@@ -109,7 +109,14 @@ export default function NfseCrawler() {
             }
           }
           
-          setInvoices(prev => [...prev, ...parsedDocs]);
+          
+          // Eliminar notas duplicadas baseadas no NSU para nao confundir o React
+          setInvoices(prev => {
+             const novaLista = [...prev, ...parsedDocs];
+             const uniqueInvoices = Array.from(new Map(novaLista.map(item => [item.nsu, item])).values());
+             return uniqueInvoices;
+          });
+          
           loopNsu = data.ultNSU || (parseInt(loopNsu) + 50).toString();
           
           // Wait 1.5s to prevent hammering SEFAZ
@@ -257,8 +264,8 @@ export default function NfseCrawler() {
                      {invoices.length === 0 ? (
                         <tr><td colSpan={6} className="p-12 text-center text-slate-400">Nenhum documento baixado ainda...</td></tr>
                      ) : (
-                        invoices.slice().reverse().map((inv, idx) => (
-                           <tr key={`${inv.nsu}-${idx}`} className="hover:bg-slate-50">
+                        [...invoices].reverse().map((inv) => (
+                           <tr key={`row-${inv.nsu}`} className="hover:bg-slate-50">
                              <td className="p-4">
                                 {inv.isCancelled ? (
                                    <span className="bg-red-100 text-red-800 text-[10px] px-2 py-1 rounded-full font-bold flex w-max items-center gap-1"><XCircle className="w-3 h-3"/> CANCELADA</span>
