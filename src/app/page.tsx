@@ -257,8 +257,8 @@ export default function NfseCrawler() {
                      {invoices.length === 0 ? (
                         <tr><td colSpan={6} className="p-12 text-center text-slate-400">Nenhum documento baixado ainda...</td></tr>
                      ) : (
-                        invoices.slice().reverse().map((inv) => (
-                           <tr key={inv.nsu} className="hover:bg-slate-50">
+                        invoices.slice().reverse().map((inv, idx) => (
+                           <tr key={`${inv.nsu}-${idx}`} className="hover:bg-slate-50">
                              <td className="p-4">
                                 {inv.isCancelled ? (
                                    <span className="bg-red-100 text-red-800 text-[10px] px-2 py-1 rounded-full font-bold flex w-max items-center gap-1"><XCircle className="w-3 h-3"/> CANCELADA</span>
@@ -266,11 +266,11 @@ export default function NfseCrawler() {
                                    <span className="bg-green-100 text-green-800 text-[10px] px-2 py-1 rounded-full font-bold flex w-max items-center gap-1"><CheckCircle2 className="w-3 h-3"/> VÁLIDA</span>
                                 )}
                              </td>
-                             <td className="p-4 font-mono text-xs text-slate-500">{inv.nsu}</td>
-                             <td className="p-4 font-medium">{inv.number}</td>
-                             <td className="p-4 truncate max-w-[200px]" title={inv.providerName}>{inv.providerName}</td>
-                             <td className="p-4">{inv.issueDate ? inv.issueDate.substring(0,10).split('-').reverse().join('/') : ''}</td>
-                             <td className="p-4 text-right font-semibold">R$ {inv.value.toFixed(2)}</td>
+                             <td className="p-4 font-mono text-xs text-slate-500"><span>{inv.nsu}</span></td>
+                             <td className="p-4 font-medium"><span>{inv.number}</span></td>
+                             <td className="p-4 truncate max-w-[200px]" title={inv.providerName}><span>{inv.providerName}</span></td>
+                             <td className="p-4"><span>{inv.issueDate ? inv.issueDate.substring(0,10).split('-').reverse().join('/') : ''}</span></td>
+                             <td className="p-4 text-right font-semibold"><span>R$ {inv.value.toFixed(2)}</span></td>
                            </tr>
                         ))
                      )}
