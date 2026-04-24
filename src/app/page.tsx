@@ -193,15 +193,22 @@ export default function NfseCrawler() {
                </div>
              )}
 
-             {isCrawling ? (
-               <button onClick={stopCrawler} className="w-full bg-rose-600 hover:bg-rose-700 text-white py-3 rounded-xl shadow-md font-bold flex items-center justify-center gap-2">
-                 <StopCircle className="animate-pulse"/> Parar Busca... (NSU: {currentNsu})
-               </button>
-             ) : (
-               <button onClick={handleStart} className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl shadow-md font-bold flex items-center justify-center gap-2">
-                 <Play className="w-5 h-5"/> Iniciar Crawler
-               </button>
-             )}
+             <button 
+               onClick={isCrawling ? stopCrawler : handleStart} 
+               className={`w-full py-3 rounded-xl shadow-md font-bold flex items-center justify-center gap-2 ${isCrawling ? 'bg-rose-600 hover:bg-rose-700 text-white' : 'bg-blue-600 hover:bg-blue-700 text-white'}`}
+             >
+               {isCrawling ? (
+                 <>
+                   <StopCircle className="animate-pulse w-5 h-5"/> 
+                   <span>Parar Busca... (NSU: {currentNsu})</span>
+                 </>
+               ) : (
+                 <>
+                   <Play className="w-5 h-5"/> 
+                   <span>Iniciar Crawler</span>
+                 </>
+               )}
+             </button>
           </div>
 
           {/* Main Dashboard */}
